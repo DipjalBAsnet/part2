@@ -10,6 +10,9 @@ const Content = ({ parts }) => {
       <p>
         {parts[2].name}: {parts[2].exercises}
       </p>
+      <p>
+        {parts[3].name}: {parts[3].exercises}
+      </p>
     </div>
   );
 };
