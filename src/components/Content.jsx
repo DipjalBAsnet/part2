@@ -1,18 +1,38 @@
-const Content = ({ parts }) => {
+import HalfStackTotal from "./total/HalfStackTotal";
+
+const Content = ({ course }) => {
+  let halfStackPart = course[0].parts;
+  let nodePart = course[1].parts;
   return (
     <div>
-      <p>
-        {parts[0].name}: {parts[0].exercises}
+      {halfStackPart.map((part) => {
+        return (
+          <div key={part.id}>
+            {part.name} : {part.exercises}
+          </div>
+        );
+      })}
+      <HalfStackTotal course={course} />
+      <h2>{course[1].name}</h2>
+      {nodePart.map((part) => {
+        return (
+          <div key={part.id}>
+            {part.name} : {part.exercises}
+          </div>
+        );
+      })}
+      {/* <p>
+        {course[0].parts[0].name}: {course[0].parts[0].exercises}
       </p>
       <p>
-        {parts[1].name}: {parts[1].exercises}
+        {course[0].parts[1].name}: {course[0].parts[1].exercises}
       </p>
       <p>
-        {parts[2].name}: {parts[2].exercises}
+        {course[0].parts[2].name}: {course[0].parts[2].exercises}
       </p>
       <p>
-        {parts[3].name}: {parts[3].exercises}
-      </p>
+        {course[0].parts[3].name}: {course[0].parts[3].exercises}
+      </p> */}
     </div>
   );
 };

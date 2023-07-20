@@ -1,4 +1,8 @@
 const Header = ({ course }) => {
-  return <h1>{course.name}</h1>;
+  return (
+    <div>
+      <h2>{course[0].name}</h2>
+    </div>
+  );
 };
 export default Header;

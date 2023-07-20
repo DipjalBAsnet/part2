@@ -1,13 +1,13 @@
 import Header from "./Header";
 import Content from "./Content";
-import Total from "./Total";
+import NodeTotal from "./total/NodeTotal";
 
 const Course = ({ course }) => {
   return (
     <div>
       <Header course={course} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      <Content course={course} />
+      <NodeTotal course={course} />
     </div>
   );
 };
