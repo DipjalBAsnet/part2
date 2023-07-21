@@ -1,22 +1,34 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
+  const personsList = [
+    { name: "Dipjal", number: 9817986233, id: 1 },
+    { name: "bikash", number: 981798099, id: 2 },
+    { name: "bibek", number: 9806026421, id: 3 },
+    { name: "kushal", number: 9842718805, id: 4 },
+  ];
+
+  const [persons, setPersons] = useState(personsList);
   const [newName, setNewName] = useState("");
-  const [numbers, setNumbers] = useState([]);
   const [newNumber, setNewNumber] = useState("");
+  const [filterItem, setFilterItem] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const duplicatePerson = persons.find((person) => person.name === newName);
+
+    if (duplicatePerson) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    }
     const newPerson = {
       name: newName,
       id: persons.length + 1,
       number: newNumber,
     };
-
     setPersons([...persons, newPerson]);
     setNewName("");
-    setNumbers([numbers, newPerson]);
     setNewNumber("");
   };
 
@@ -30,16 +42,23 @@ const App = () => {
     setNewNumber(value);
   };
 
-  const duplicatePerson = persons.find((person) => person.name === newName);
+  const handleFilterChange = (event) => {
+    const { value } = event.target;
+    setFilterItem(value);
+  };
 
-  if (duplicatePerson) {
-    alert(`${newName} is already added to phonebook`);
-    return;
-  }
+  const filteredPerson = persons.filter((list) =>
+    list.name.toLowerCase().includes(filterItem.toLowerCase())
+  );
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <div>
+        filter with shown:{" "}
+        <input value={filterItem} onChange={handleFilterChange} />
+      </div>
+      <h2>add a new</h2>
       <form onSubmit={handleSubmit}>
         <div>
           Name: <input onChange={handleNameChange} value={newName} /> <br />
@@ -56,7 +75,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => (
+        {filteredPerson.map((person) => (
           <li key={person.id}>
             {person.name} : {person.number}
           </li>
