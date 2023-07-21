@@ -20,6 +20,13 @@ const App = () => {
     setNewName(value);
   };
 
+  const duplicatePerson = persons.find((person) => person.name === newName);
+
+  if (duplicatePerson) {
+    alert(`${newName} is already added to phonebook`);
+    return;
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
