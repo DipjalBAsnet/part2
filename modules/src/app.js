@@ -1,7 +1,7 @@
-import Course from "./components/course";
+import Course from "./components/Course";
 
 const App = () => {
-  const course = [
+  const courses = [
     {
       name: "Half Stack application development",
       id: 1,
@@ -45,11 +45,12 @@ const App = () => {
       ],
     },
   ];
+  console.log(courses[0].id);
 
   return (
     <div>
       <h1>Web Development Curriculum</h1>
-      <Course course={course} />
+      <Course course={courses} />;
     </div>
   );
 };
