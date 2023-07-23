@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import FilteredInput from "./components/filterInput";
 import ShowUser from "./components/showUser";
 import AddUser from "./components/addUser";
-import axios from "axios";
+import noteService from "./services/notes";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,9 +11,15 @@ const App = () => {
   const [filterItem, setFilterItem] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/personslist").then((response) => {
-      setPersons(response.data);
-    });
+    noteService
+      .getAll()
+      .then((response) => {
+        console.log("data fetched", response);
+        setPersons(response);
+      })
+      .catch((error) => {
+        console.log("error while fetching the data", error);
+      });
   }, []);
 
   const handleSubmit = (event) => {
@@ -31,13 +37,16 @@ const App = () => {
       number: newNumber,
     };
 
-    axios
-      .post("http://localhost:3001/personslist", newPerson)
+    noteService
+      .create(newPerson)
       .then((response) => {
-        console.log(response.data);
-        setPersons([...persons, newPerson]);
+        console.log("response from server after creating", response);
+        setPersons([...persons, response]);
         setNewName("");
         setNewNumber("");
+      })
+      .catch((error) => {
+        console.log("error while creating a new person", error);
       });
   };
 
