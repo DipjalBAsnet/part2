@@ -70,10 +70,29 @@ const App = () => {
     const filteredPerson = filterItem ? filterItem.toLowerCase() : "";
     return personsList.includes(filteredPerson);
   });
+
+  const handleRemove = async (id) => {
+    const personToRemove = persons.find((person) => person.id === id);
+    const confirmDeletion = window.confirm(
+      `Do you want to remove ${personToRemove.name} ? `
+    );
+
+    if (confirmDeletion) {
+      try {
+        await noteService.remove(id).then(() => {
+          console.log("succesfully deleted");
+          setPersons(persons.filter((person) => person.id !== id));
+        });
+      } catch (error) {
+        console.log("error while deleting the user", error);
+      }
+    }
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
-      <FilteredInput value={filterItem} onChange={handleFilterChange} />
+      <FilteredInput value={filterItem} onChange={() => handleFilterChange} />
       <h2>add a new</h2>
       <AddUser
         newName={newName}
@@ -83,7 +102,7 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <ShowUser filteredPerson={filteredPerson} />
+      <ShowUser filteredPerson={filteredPerson} handleRemove={handleRemove} />
     </div>
   );
 };
