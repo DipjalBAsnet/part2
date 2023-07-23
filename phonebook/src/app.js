@@ -11,13 +11,10 @@ const App = () => {
   const [filterItem, setFilterItem] = useState("");
 
   useEffect(() => {
-    console.log("render");
     axios.get("http://localhost:3001/personslist").then((response) => {
-      console.log("ran");
       setPersons(response.data);
     });
   }, []);
-  console.log(persons.length);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -33,9 +30,15 @@ const App = () => {
       id: persons.length + 1,
       number: newNumber,
     };
-    setPersons([...persons, newPerson]);
-    setNewName("");
-    setNewNumber("");
+
+    axios
+      .post("http://localhost:3001/personslist", newPerson)
+      .then((response) => {
+        console.log(response.data);
+        setPersons([...persons, newPerson]);
+        setNewName("");
+        setNewNumber("");
+      });
   };
 
   const handleNameChange = (event) => {
@@ -53,10 +56,11 @@ const App = () => {
     setFilterItem(value);
   };
 
-  const filteredPerson = persons.filter((list) =>
-    list.name.toLowerCase().includes(filterItem.toLowerCase())
-  );
-
+  const filteredPerson = persons.filter((list) => {
+    const personsList = list.name ? list.name.toLowerCase() : "";
+    const filteredPerson = filterItem ? filterItem.toLowerCase() : "";
+    return personsList.includes(filteredPerson);
+  });
   return (
     <div>
       <h1>Phonebook</h1>
