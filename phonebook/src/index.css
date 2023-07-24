@@ -1,0 +1,10 @@
+.notification {
+  color: green;
+  background: lightgrey;
+  font-size: 15px;
+  border-style: solid;
+  border-color: darkgreen;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 10px;
+}

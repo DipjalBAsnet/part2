@@ -3,12 +3,15 @@ import FilteredInput from "./components/filterInput";
 import ShowUser from "./components/showUser";
 import AddUser from "./components/addUser";
 import noteService from "./services/notes";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterItem, setFilterItem] = useState("");
+  const [notification, setNotification] = useState();
+  const [recentlyAddedName, setrecentlyAddedName] = useState("");
 
   useEffect(() => {
     noteService
@@ -44,6 +47,7 @@ const App = () => {
         setPersons([...persons, response]);
         setNewName("");
         setNewNumber("");
+        setrecentlyAddedName(newPerson.name);
       })
       .catch((error) => {
         console.log("error while creating a new person", error);
@@ -92,6 +96,12 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification
+        notification={notification}
+        filteredPerson={filteredPerson}
+        recentlyAddedName={recentlyAddedName}
+      />
+      <br />
       <FilteredInput value={filterItem} onChange={() => handleFilterChange} />
       <h2>add a new</h2>
       <AddUser
