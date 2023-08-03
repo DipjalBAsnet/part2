@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:3001/personslist";
+const url = "http://localhost:3001/api/persons";
 
 const create = (newList) => {
   return axios.post(url, newList).then((response) => response.data);
